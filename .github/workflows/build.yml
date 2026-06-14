@@ -24,25 +24,24 @@ jobs:
           }
           EOF
 
-      - name: Compile Application Archive
+      - name: Compile Application Binary
         run: |
           cd samples/CameraAccess
-          xcodebuild archive \
+          xcodebuild build-for-testing \
             -project CameraAccess.xcodeproj \
             -scheme CameraAccess \
-            -configuration Release \
             -destination 'generic/platform=iOS' \
-            -archivePath ./build/VisionClaw.xcarchive \
+            -derivedDataPath ./DerivedData \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
-            CODE_SIGN_ENTITLEMENTS="" \
             AD_HOC_CODE_SIGNING_ALLOWED=YES
 
-      - name: Package into IPA
+      - name: Package into Standalone IPA
         run: |
           mkdir -p Payload
-          cp -r samples/CameraAccess/build/VisionClaw.xcarchive/Products/Applications/CameraAccess.app Payload/
+          # Locate the compiled app bundle from the testing build path and copy it into the payload
+          cp -r samples/CameraAccess/DerivedData/Build/Products/Debug-iphoneos/CameraAccess.app Payload/
           zip -r VisionClaw.ipa Payload
 
       - name: Upload Finished App Package
