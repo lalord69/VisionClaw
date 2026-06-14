@@ -22,7 +22,7 @@ jobs:
               static let openClawPort = ${{ secrets.OPENCLAW_PORT }}
               static let openClawHookToken = "${{ secrets.GATEWAY_TOKEN }}"
               static let openClawGatewayToken = "${{ secrets.GATEWAY_TOKEN }}"
-              static let webrtcSignalingURL = "wss://nightcloud.asuscomm.com:18789/ws"
+              static let webrtcSignalingURL = "wss://${{ secrets.OPENCLAW_HOST }}:${{ secrets.OPENCLAW_PORT }}/ws"
           }
           EOF
 
