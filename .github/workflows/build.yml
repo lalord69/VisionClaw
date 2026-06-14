@@ -17,12 +17,19 @@ jobs:
         run: |
           cat <<EOF > samples/CameraAccess/CameraAccess/Secrets.swift
           struct Secrets {
-              static let geminiApiKey = "${{ secrets.GEMINI_API_KEY }}"
+              static let geminiAPIKey = "${{ secrets.GEMINI_API_KEY }}"
               static let openClawHost = "${{ secrets.OPENCLAW_HOST }}"
-              static let openClawPort = ${{ secrets.OPENCLAW_PORT }}
-              static let gatewayToken = "${{ secrets.GATEWAY_TOKEN }}"
+              static let openClawPort = "${{ secrets.OPENCLAW_PORT }}"
+              static let openClawHookToken = "${{ secrets.GATEWAY_TOKEN }}"
+              static let openClawGatewayToken = "${{ secrets.GATEWAY_TOKEN }}"
+              static let webrtcSignalingURL = "wss://nightcloud.asuscomm.com:18789/ws"
           }
           EOF
+
+      - name: Patch Bluetooth Compilation Bug
+        run: |
+          # Replaces the deprecated .allowBluetoothHFP with the modern .allowBluetooth syntax to fix the audio crash
+          sed -i '' 's/\.allowBluetoothHFP/\.allowBluetooth/g' samples/CameraAccess/CameraAccess/Gemini/AudioManager.swift
 
       - name: Compile Application Binary
         run: |
