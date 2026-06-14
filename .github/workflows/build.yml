@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-14
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Xcode Version
         run: sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer
@@ -36,7 +36,7 @@ jobs:
           zip -r VisionClaw.ipa Payload
 
       - name: Upload Finished App Package
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: VisionClaw-Installer
           path: VisionClaw.ipa
